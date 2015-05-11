@@ -105,9 +105,7 @@
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
     var results = [];
-      for (var i = 0; i < collection.length; i++) {
-        results.push(iterator(collection[i], i, collection));
-      }
+    _.each(collection, function(value, key, collection) {results.push(iterator(value, key, collection));});
     return results;
   };
 
@@ -150,13 +148,13 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    for (var i = 0; i < collection.length; i++) {
+    _.each(collection, function (value, key, collection){
       if (accumulator === undefined) {
         accumulator = collection[0];
-        i++;
+      } else {
+        accumulator = iterator(accumulator, value);
       }
-      accumulator = iterator(accumulator, collection[i]);
-    }
+    });
     return accumulator;
   };
 
