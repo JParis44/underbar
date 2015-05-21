@@ -210,7 +210,7 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    var objects = Array.prototype.slice.call(arguments).slice(1);
+    var objects = Array.prototype.slice.call(arguments, 1);
     _.each(objects, function (value, key, collection) {
       _.each(value, function (value, key, collection) {
         obj[key] = value;
@@ -222,7 +222,7 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    var objects = Array.prototype.slice.call(arguments).slice(1);
+    var objects = Array.prototype.slice.call(arguments, 1);
     _.each(objects, function (value, key, collection) {
       _.each(value, function (value, key, collection) {
         obj[key] = obj[key] === undefined ? value : obj[key];
@@ -290,6 +290,10 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var passArgs = Array.prototype.slice.call(arguments, 2);
+    window.setTimeout(function(){
+      func.apply(this, passArgs);
+    }, wait);
   };
 
 
