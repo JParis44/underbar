@@ -210,6 +210,13 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var objects = Array.prototype.slice.call(arguments).slice(1);
+    _.each(objects, function (value, key, collection){
+      _.each(value, function (value, key, collection){
+        obj[key] = value;
+      });
+    });
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
