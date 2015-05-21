@@ -211,8 +211,8 @@
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
     var objects = Array.prototype.slice.call(arguments).slice(1);
-    _.each(objects, function (value, key, collection){
-      _.each(value, function (value, key, collection){
+    _.each(objects, function (value, key, collection) {
+      _.each(value, function (value, key, collection) {
         obj[key] = value;
       });
     });
@@ -223,8 +223,8 @@
   // exists in obj
   _.defaults = function(obj) {
     var objects = Array.prototype.slice.call(arguments).slice(1);
-    _.each(objects, function (value, key, collection){
-      _.each(value, function (value, key, collection){
+    _.each(objects, function (value, key, collection) {
+      _.each(value, function (value, key, collection) {
         obj[key] = obj[key] === undefined ? value : obj[key];
       });
     });
@@ -254,7 +254,7 @@
     return function() {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -272,6 +272,15 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var argList = {};
+    return function () {
+      if (argList[arguments[0]] === undefined) {
+        argList[arguments[0]] = func.apply(this, arguments);
+        return argList[arguments[0]];
+      } else {
+        return argList[arguments[0]];
+      }
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
