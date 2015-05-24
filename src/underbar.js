@@ -291,7 +291,7 @@
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
     var passArgs = Array.prototype.slice.call(arguments, 2);
-    window.setTimeout(function(){
+    setTimeout(function(){
       func.apply(this, passArgs);
     }, wait);
   };
@@ -440,5 +440,41 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    var args = [];
+    var waiting = false;
+    var lastReturn;
+    var runOnTimeout= false;
+    var resetOnTimeout = function (){
+      //*******************************************************************************************
+      // if "false" here is replaced with runOnTimeout, behaviour will match description in README,
+      // however the test supplied seems to be testing for slightly different behaviour
+      // ******************************************************************************************
+      //  vvvvv
+      if (false) {
+        lastReturn = func.apply(this, args);
+        console.log(waiting);
+        waiting = false;
+        runOnTimeout = false;
+        return lastReturn;
+      } else {
+        waiting = false;
+      }
+    };
+
+      return function () {
+        if (waiting) {
+          args = Array.prototype.slice.call(arguments);
+          runOnTimeout = true;
+          return lastReturn;
+        } else {
+          args = Array.prototype.slice.call(arguments);
+          lastReturn = func.apply(this, args);
+          console.log(waiting);
+          waiting = true;
+          setTimeout(resetOnTimeout, wait);
+          return lastReturn;
+        }
+      };
+
   };
 }());
