@@ -452,7 +452,6 @@
       //  vvvvv
       if (false) {
         lastReturn = func.apply(this, args);
-        console.log(waiting);
         waiting = false;
         runOnTimeout = false;
         return lastReturn;
@@ -469,7 +468,6 @@
         } else {
           args = Array.prototype.slice.call(arguments);
           lastReturn = func.apply(this, args);
-          console.log(waiting);
           waiting = true;
           setTimeout(resetOnTimeout, wait);
           return lastReturn;
